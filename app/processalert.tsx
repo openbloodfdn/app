@@ -9,7 +9,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import * as Progress from 'react-native-progress'
 export default function Modal() {
   const local = useLocalSearchParams()
-  //const token = local.token
   const bankCode = local.bankCode
   const bloodtype = local.bloodtype
   const units = local.units
@@ -103,7 +102,6 @@ export default function Modal() {
     }
     load()
   }, [])
-  let doneIcon = ''
   return (
     <KeyboardAwareScrollView
       style={{

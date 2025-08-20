@@ -6,7 +6,7 @@ import { BlurView } from 'expo-blur'
 import Constants from 'expo-constants'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
-import { router, useLocalSearchParams } from 'expo-router'
+import { router } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
 import React, { useEffect, useRef, useState } from 'react'
 import {
@@ -25,7 +25,6 @@ import * as Linking from 'expo-linking'
 import fx from '@/components/Fetch'
 import checkSecret, { logoutUser } from '@/components/CheckSecret'
 const Tab = createBottomTabNavigator()
-const ModalStack = createStackNavigator()
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -46,7 +45,6 @@ export default function Index() {
 
   let [showModal, setShowModal] = useState<boolean>(false)
 
-  let local: any = useLocalSearchParams()
   async function checkNotifs() {
     const perms = await Notifications.getPermissionsAsync()
     let existingStatus = perms.status

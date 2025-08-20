@@ -24,7 +24,6 @@ export default function Camera() {
   const [token, setToken] = useState<string | null>('')
   const [bankCode, setBankCode] = useState<string | null>('')
   const [bbName, setBbName] = useState<string>('')
-  let isDarkMode = useColorScheme() === 'dark'
   useEffect(() => {
     async function getToken() {
       let t = await SecureStore.getItemAsync('token')

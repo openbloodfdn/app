@@ -6,7 +6,7 @@ import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
 import * as SplashScreen from 'expo-splash-screen'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Alert,
@@ -22,7 +22,6 @@ import {
 } from 'react-native'
 import { Image } from 'expo-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import checkSecret from '@/components/CheckSecret'
 import fx from '@/components/Fetch'
 SplashScreen.preventAutoHideAsync()
 
@@ -196,12 +195,6 @@ export default function Home() {
     init()
   }, [])
   let isDarkMode = useColorScheme() === 'dark'
-
-  const onLayoutRootView = useCallback(async () => {
-    if (appReady) {
-      await SplashScreen.hideAsync()
-    }
-  }, [appReady])
 
   if (!appReady) {
     return null
