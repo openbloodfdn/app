@@ -148,7 +148,6 @@ export default function Settings() {
       .then(async (response) => {
         setAllBanks(
           response.banks.filter((x: any) => {
-            //return !scopes.some((y) => y.uuid === x.uuid)
             return scopes
           })
         )
@@ -575,30 +574,6 @@ export default function Settings() {
             {'\n'}
             Security
           </Text>
-          {/*<FreeButton
-            onPress={() => {
-              Alert.alert(
-                'Warning',
-                'You should only regenerate your ID if you believe your account has been compromised. This will log you out from all other devices you may have signed into.',
-                [
-                  {
-                    text: 'Cancel',
-                    style: 'cancel',
-                  },
-                  {
-                    text: 'Regenerate',
-                    onPress: () => {
-                      regenerateUUID()
-                    },
-                  },
-                ]
-              )
-            }}
-            disabled={isRegenerating}
-          >
-            Regenerat{isRegenerating ? 'ing' : 'e'} ID
-            {isRegenerating ? '...' : ''}
-          </FreeButton>*/}
         </View>
 
         <FreeButton

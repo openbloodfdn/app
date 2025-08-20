@@ -30,25 +30,9 @@ export default function Three({
   )
   let [showConditions, setShowConditions] = useState<boolean>(false)
   let [showMedications, setShowMedications] = useState<boolean>(false)
-  const allConditions = [
-    'Epilepsy',
-    'Fainting',
-    'Heart Disease',
-    'Leprosy',
-    'Tuberculosis',
-    'Kidney Disease',
-    'Cancer',
-    'Diabetes-on insulin',
-    'Endocrine Disease',
-    'Hypotension',
-    'Hypertension',
-    'Abnormal bleeding tendencies',
-  ]
-  const allMedications = ['NSAIDs', 'Antibiotics', 'Steroids', 'Other']
   delete route.params?.conditions
   delete route.params?.medications
 
-  let isDarkMode = useColorScheme() === 'dark'
   let responsiveDark = useColorScheme() === 'dark' ? 'white' : 'black'
   return (
     <KeyboardAwareScrollView

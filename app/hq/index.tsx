@@ -8,7 +8,6 @@ import HQHome from './home'
 import Query from './query'
 import Settings from './settings'
 const Tab = createBottomTabNavigator()
-const ModalStack = createStackNavigator()
 
 export default function HQIndex() {
   let isDarkMode = useColorScheme() === 'dark'

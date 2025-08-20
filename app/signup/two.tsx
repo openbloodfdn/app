@@ -45,7 +45,6 @@ export default function Two({
   delete route.params?.weight
   delete route.params?.height
 
-  let timestampNow = new Date().toISOString()
   let timestamp18YearsAgo = new Date()
 
   timestamp18YearsAgo.setFullYear(timestamp18YearsAgo.getFullYear() - 18)

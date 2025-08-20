@@ -725,9 +725,6 @@ export default function Query() {
                           }}
                           placeholderTextColor={'grey'}
                           placeholder="Type here"
-                          /*onChangeText={(val) => (nameInputTemp = val)}
-                          onEndEditing={() => setName(nameInputTemp)}
-                          defaultValue={name}*/
                           value={name}
                           onChangeText={setName}
                           autoComplete="off"

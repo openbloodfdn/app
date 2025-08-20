@@ -22,7 +22,6 @@ export default function HQHome() {
   let [refreshing, setRefreshing] = useState<boolean>(false)
   let [totalDonators, setTotalDonators] = useState<number>(0)
   let [verifiedDonors, setVerifiedDonors] = useState<number>(0)
-  //let [installed, setInstalled] = useState<string>("0")
   let [unverifiedDonors, setUnverifiedDonors] = useState<number>(0)
   let [totalDonations, setTotalDonations] = useState<number | null>(null)
   let [token, setToken] = useState<string | null>('')

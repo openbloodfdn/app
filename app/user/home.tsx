@@ -22,7 +22,6 @@ import {
 } from 'react-native'
 import { Image } from 'expo-image'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import checkSecret from '@/components/CheckSecret'
 import fx from '@/components/Fetch'
 SplashScreen.preventAutoHideAsync()
 

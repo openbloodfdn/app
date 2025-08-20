@@ -124,5 +124,3 @@ export default function WelcomeScreen() {
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({})
