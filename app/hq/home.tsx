@@ -4,7 +4,7 @@ import Octicons from '@expo/vector-icons/Octicons'
 import { router } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
 import * as SplashScreen from 'expo-splash-screen'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Alert,
   Pressable,
@@ -83,14 +83,6 @@ export default function HQHome() {
     load(false)
     setAppReady(true)
   }, [])
-
-  let responsiveColor = useColorScheme() === 'dark' ? 'white' : 'black'
-
-  const onLayoutRootView = useCallback(async () => {
-    if (appReady) {
-      await SplashScreen.hideAsync()
-    }
-  }, [appReady])
 
   if (!appReady) {
     return null

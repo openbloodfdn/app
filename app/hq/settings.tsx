@@ -32,8 +32,6 @@ export default function Settings() {
       'mailto:openblood@pidgon.com?subject=Open%20Blood%20Bug%20Report'
     )
   }
-  let isDarkMode = useColorScheme() === 'dark'
-  let responsiveColor = useColorScheme() === 'dark' ? '#fff' : '#000'
   return (
     <SafeAreaView
       style={{
