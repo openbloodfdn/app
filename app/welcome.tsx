@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import {
-  StyleSheet,
   useColorScheme,
   useWindowDimensions,
   View,
+  Pressable,
+  Text,
 } from 'react-native'
 import Animated, { Easing, FadeIn } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -11,44 +12,40 @@ import FreeButton from '@/components/FreeButton'
 import * as SecureStore from 'expo-secure-store'
 import { router } from 'expo-router'
 
-const messages = [
-  "We're really glad you're here.",
-  "Open Blood is built to make donating easier, safer, and smarter. We'll help you:",
-  'Register in under 2 minutes',
-  'Know when and where your blood is needed',
-  'Keep track of your donations, eligibility, and history',
-  'Get notified during critical shortages in your area',
-  "We're not here to sell you anything. Your data is encrypted and kept private. Only you decide who gets access to it.",
+const screens = [
+  {
+    title: "Welcome to Open Blood",
+    content: "The smartest way to donate blood and save lives in your community.",
+    emoji: "🩸"
+  },
+  {
+    title: "Everything you need",
+    content: "• Quick 2-minute registration\n• Get notified when blood is needed\n• Track your donation history\n• Emergency alerts in your area",
+    emoji: "✨"
+  },
+  {
+    title: "Your privacy matters",
+    content: "Your data is encrypted and secure. You control who sees what. No selling, no spam, just helping save lives.",
+    emoji: "🔒"
+  }
 ]
 
 export default function WelcomeScreen() {
-  const { height } = useWindowDimensions()
+  const { width } = useWindowDimensions()
   const insets = useSafeAreaInsets()
   const colorScheme = useColorScheme()
-  const [messageIndex, setMessageIndex] = useState(0)
+  const [screenIndex, setScreenIndex] = useState(0)
   const [transitioning, setTransitioning] = useState(false)
-  const [headline, setHeadline] = useState('Hey there.')
-  const [headlineKey, setHeadlineKey] = useState(0)
 
-  const nextMessage = () => {
+  const nextScreen = () => {
     if (transitioning) return
     setTransitioning(true)
 
-    if (messageIndex === 0) {
+    if (screenIndex < screens.length - 1) {
       setTimeout(() => {
-        setHeadline('Welcome to Open Blood.')
-        setHeadlineKey((prev) => prev + 1)
-      }, 100)
-    }
-
-    if (messageIndex < messages.length) {
-      setTimeout(
-        () => {
-          setMessageIndex((prev) => prev + 1)
-          setTransitioning(false)
-        },
-        messageIndex == 0 ? 1000 : 200
-      )
+        setScreenIndex((prev) => prev + 1)
+        setTransitioning(false)
+      }, 200)
     } else {
       SecureStore.setItemAsync('hasOnboarded', 'true').then(() => {
         router.replace('/')
@@ -56,73 +53,115 @@ export default function WelcomeScreen() {
     }
   }
 
+  const skipOnboarding = () => {
+    SecureStore.setItemAsync('hasOnboarded', 'true').then(() => {
+      router.replace('/')
+    })
+  }
+
+  const currentScreen = screens[screenIndex]
+
   return (
     <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: colorScheme === 'dark' ? '#030303' : '#efeef7',
-        paddingBottom: insets.bottom + 80,
-        paddingHorizontal: 20,
+        paddingHorizontal: Math.max(20, width * 0.05),
       }}
     >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Animated.View
           entering={FadeIn.duration(500).easing(Easing.inOut(Easing.ease))}
-          style={[{ alignItems: 'center' }]}
+          style={[
+            {
+              alignItems: 'center',
+              width: '100%',
+              maxWidth: Math.min(400, width - 40),
+              paddingHorizontal: 20,
+              flex: 1,
+              justifyContent: 'center',
+            },
+          ]}
         >
-          <View
-            style={{
-              height: 80,
-            }}
-          >
+          <View style={{ alignItems: 'center', marginBottom: 20 }}>
             <Animated.Text
-              key={headlineKey}
+              key={screenIndex + 'emoji'}
               entering={FadeIn.duration(500)}
               style={{
-                fontSize: 28,
-                fontWeight: 'bold',
-                color: colorScheme === 'dark' ? '#fff' : '#000',
-                textAlign: 'center',
+                fontSize: 64,
                 marginBottom: 20,
               }}
             >
-              {headline}
+              {currentScreen.emoji}
             </Animated.Text>
           </View>
-          {messageIndex >= 0 && messageIndex < messages.length && (
+          
+          <View style={{ marginBottom: 20 }}>
             <Animated.Text
-              key={messageIndex + 'ms'}
-              entering={FadeIn.duration(800)}
+              key={screenIndex + 'title'}
+              entering={FadeIn.duration(500)}
               style={{
-                fontSize: 18,
-                color: colorScheme === 'dark' ? '#aaa' : '#444',
+                fontSize: Math.max(22, Math.min(32, width * 0.06)),
+                fontWeight: 'bold',
+                color: colorScheme === 'dark' ? '#fff' : '#000',
                 textAlign: 'center',
-                marginVertical: 10,
-                lineHeight: 26,
+                marginBottom: 16,
               }}
             >
-              {messages[messageIndex]}
+              {currentScreen.title}
             </Animated.Text>
-          )}
+            
+            <Animated.Text
+              key={screenIndex + 'content'}
+              entering={FadeIn.duration(800)}
+              style={{
+                fontSize: Math.max(16, Math.min(20, width * 0.045)),
+                color: colorScheme === 'dark' ? '#bbb' : '#555',
+                textAlign: screenIndex === 1 ? 'left' : 'center',
+                lineHeight: Math.max(16, Math.min(20, width * 0.045)) * 1.5,
+              }}
+            >
+              {currentScreen.content}
+            </Animated.Text>
+          </View>
         </Animated.View>
       </View>
 
-      {messageIndex <= messages.length && (
-        <View
+      <View
+        style={{
+          paddingTop: 40,
+          paddingBottom: insets.bottom + 20,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        {/* <Pressable
+          onPress={skipOnboarding}
           style={{
-            position: 'absolute',
-            bottom: insets.bottom + 20,
-            left: 20,
-            right: 20,
+            paddingHorizontal: 16,
+            paddingVertical: 12,
           }}
         >
-          <FreeButton onPress={nextMessage}>
-            {messageIndex < messages.length ? 'Next' : 'Get Started'}
-          </FreeButton>
-        </View>
-      )}
+          <Text
+            style={{
+              color: colorScheme === 'dark' ? '#888' : '#666',
+              fontSize: 15,
+              textAlign: 'center',
+            }}
+          >
+            Skip
+          </Text>
+        </Pressable> */}
+        
+        <FreeButton
+          onPress={nextScreen}
+          style={{ flex: 1, marginLeft: 20 }}
+        >
+          {screenIndex < screens.length - 1 ? 'Next' : 'Get Started'}
+        </FreeButton>
+      </View>
     </SafeAreaView>
   )
 }
 
-const styles = StyleSheet.create({})
